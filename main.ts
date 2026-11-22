@@ -3,12 +3,18 @@
 // One concrete image that opens a mystery and does not answer it:
 // a drawer that opens itself, a photograph never seen, a room never
 // entered, someone holding your coat. Plain words, slow rhythm.
+// The text is fixed: the program's whole job is to deliver it exactly.
 import { mkdirSync, writeFileSync } from "node:fs";
 
-const entry =
+const ENTRY =
   "The drawer you never open has started opening itself at night. " +
   "This morning there was a photograph inside it that you have never seen, " +
   "of a room you have never entered, and someone in it is holding your coat.";
 
+// The gate counts Unicode code points: 1 to 280, not only whitespace.
+if ([...ENTRY].length < 1 || [...ENTRY].length > 280) {
+  throw new Error("entry out of range");
+}
+
 mkdirSync("/output", { recursive: true });
-writeFileSync("/output/entry.txt", entry, "utf8");
+writeFileSync("/output/entry.txt", ENTRY, "utf8");
